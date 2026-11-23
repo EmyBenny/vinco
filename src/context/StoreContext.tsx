@@ -112,7 +112,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         id: 'ntf-welcome-vinco',
         targetUserId: 'all',
         type: 'promotion',
-        title: 'Welcome to Vinco Home & Bath',
+        title: 'Welcome to Vinco & More',
         message: 'Explore new Boxers, Stretching Bedcovers, Students Blankets & Character Towels.',
         orderId: '',
         readBy: [],
@@ -338,7 +338,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
             return;
           }
 
-          const title = data.title || 'Vinco Update';
+          const title = data.title || 'Vinco & More Update';
           const message = data.message || '';
           const tone =
             data.event === 'inventory:low_stock'
@@ -501,7 +501,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       orderNumber,
       userId: user.uid,
       customerEmail: user.email,
-      customerName: params.customerName.trim().slice(0, 100) || 'Vinco Customer',
+      customerName: params.customerName.trim().slice(0, 100) || 'Vinco & More Customer',
       items: cart.map((c) => ({
         productId: c.productId,
         title: c.title,
@@ -647,7 +647,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       id: reviewId,
       productId,
       userId: user.uid,
-      userName: profile.displayName || 'Vinco Customer',
+      userName: profile.displayName || 'Vinco & More Customer',
       rating: Math.max(1, Math.min(5, Math.round(rating))),
       comment: comment.trim().slice(0, 600),
       createdAtMs: Date.now(),
@@ -661,7 +661,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
     pushLocalToast({
       title: 'Review Published',
-      message: 'Thank you for sharing feedback with the Vinco community.',
+      message: 'Thank you for sharing feedback with the Vinco & More community.',
       tone: 'emerald',
     });
   };

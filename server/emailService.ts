@@ -49,7 +49,7 @@ export async function sendAdminEmailNotification(params: {
   if (transporter) {
     try {
       await transporter.sendMail({
-        from: `"Vinco Store Ops" <${process.env.SMTP_USER}>`,
+        from: `"Vinco & More Store Ops" <${process.env.SMTP_USER}>`,
         to: recipient,
         subject: params.subject,
         text: params.summary,

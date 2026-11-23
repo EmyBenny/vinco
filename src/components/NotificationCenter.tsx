@@ -80,7 +80,7 @@ export function NotificationDrawer({ open, onClose }: NotificationDrawerProps) {
       >
         <div className="p-5 border-b border-[#AEC3B0]/50 flex items-center justify-between">
           <div>
-            <h2 className="font-display text-lg font-bold text-[#004D2C]">Vinco Live Alerts</h2>
+            <h2 className="font-display text-lg font-bold text-[#004D2C]">Vinco &amp; More Live Alerts</h2>
             <p className="text-xs text-[#3B7A57] mt-0.5">
               {wsConnected ? 'Real-time push feed connected' : 'Reconnecting to live feed'}
             </p>
@@ -117,7 +117,7 @@ export function NotificationDrawer({ open, onClose }: NotificationDrawerProps) {
               <Bell className="w-8 h-8 text-[#D4AF37] mx-auto" />
               <p className="text-sm font-medium text-[#004D2C]">No notifications yet</p>
               <p className="text-xs text-[#3B7A57]">
-                Order status updates and Vinco drop promotions will appear here automatically.
+                Order status updates and Vinco &amp; More drop promotions will appear here automatically.
               </p>
             </div>
           ) : (

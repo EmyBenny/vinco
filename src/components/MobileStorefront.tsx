@@ -4,6 +4,7 @@ import {
   BedDouble,
   Heart,
   Layers,
+  MapPin,
   Plus,
   Search,
   Shirt,
@@ -15,6 +16,7 @@ import {
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useStore } from '../context/StoreContext';
+import { STORE_INFO } from '../data/storeInfo';
 import {
   COLOR_SWATCH_MAP,
   formatNaira,
@@ -31,6 +33,7 @@ interface MobileStorefrontProps {
   onResetFilters: () => void;
   onSelectProduct: (product: Product, initialMode?: 'overview' | 'studio' | 'lookbook') => void;
   onQuickBuy: (product: Product) => void;
+  onOpenAdmin?: () => void;
 }
 
 const CATEGORY_TABS: Array<{ id: CategoryType; label: string; icon: typeof Bath }> = [
@@ -51,6 +54,7 @@ export function MobileStorefront({
   onResetFilters,
   onSelectProduct,
   onQuickBuy,
+  onOpenAdmin,
 }: MobileStorefrontProps) {
   const { products, addToCart } = useStore();
   const { profile, toggleWishlist } = useAuth();
@@ -84,13 +88,23 @@ export function MobileStorefront({
         <div className="flex items-center justify-between mb-3 px-1">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#D4AF37] ring-2 ring-[#006837]" aria-hidden="true" />
-            <span className="font-display text-xl font-extrabold tracking-tight text-[#004D2C]">
-              Vinco
+            <span className="font-display text-xl font-extrabold tracking-tight text-[#004D2C] whitespace-nowrap">
+              Vinco &amp; More
             </span>
           </div>
-          <span className="text-[11px] font-bold text-[#006837] border-b border-[#D4AF37] pb-0.5">
-            Towels · Boxers · Bedcovers · Blankets
-          </span>
+          {onOpenAdmin ? (
+            <button
+              type="button"
+              onClick={onOpenAdmin}
+              className="text-xs font-bold text-[#006837] hover:text-[#004D2C] border-b border-[#D4AF37] pb-0.5 whitespace-nowrap shrink-0"
+            >
+              Admin Portal
+            </button>
+          ) : (
+            <span className="text-[11px] font-bold text-[#006837] border-b border-[#D4AF37] pb-0.5">
+              Towels · Boxers · Bedcovers · Blankets
+            </span>
+          )}
         </div>
 
         <div className="flex items-center gap-2.5 bg-white/95 rounded-full px-4 py-2 border border-[#D4AF37]/70 shadow-xs">
@@ -100,7 +114,7 @@ export function MobileStorefront({
             value={filters.search}
             onChange={(e) => onUpdateFilters({ search: e.target.value })}
             placeholder="Find Towels, Boxers, Bedcovers, Blankets..."
-            aria-label="Search Vinco catalog"
+            aria-label="Search Vinco & More catalog"
             className="flex-1 bg-transparent text-sm text-[#004D2C] placeholder:text-[#3B7A57] outline-none min-h-[36px]"
           />
           {filters.search && (
@@ -344,7 +358,7 @@ export function MobileStorefront({
       <div className="px-4 pt-5">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-display text-sm font-bold text-[#004D2C]">
-            {hasActiveSearchOrFilter ? 'Filtered Selection' : 'All Vinco Collections'}
+            {hasActiveSearchOrFilter ? 'Filtered Selection' : 'All Vinco & More Collections'}
           </h3>
           {hasActiveSearchOrFilter && (
             <button
@@ -430,6 +444,21 @@ export function MobileStorefront({
             ))}
           </div>
         )}
+      </div>
+
+      {/* Head Office Address Card */}
+      <div className="px-4 pt-6">
+        <div className="bg-[#004D2C] text-white rounded-3xl p-4 border border-[#D4AF37] flex items-start gap-3">
+          <span className="w-9 h-9 rounded-xl bg-[#006837] border border-[#D4AF37]/70 flex items-center justify-center shrink-0">
+            <MapPin className="w-4 h-4 text-[#F3E5AB]" />
+          </span>
+          <div className="space-y-0.5 text-xs">
+            <p className="font-display font-bold text-[#F3E5AB]">
+              {STORE_INFO.brandName} · {STORE_INFO.headOfficeLabel}
+            </p>
+            <p className="text-[#E3EED4] leading-relaxed">{STORE_INFO.fullAddress}</p>
+          </div>
+        </div>
       </div>
 
       {/* Mobile Multi-Facet Filter Bottom Sheet */}

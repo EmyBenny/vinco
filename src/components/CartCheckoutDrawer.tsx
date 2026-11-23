@@ -1,7 +1,8 @@
-import { CheckCircle2, CreditCard, Lock, Minus, Plus, ShieldCheck, Trash2, Wallet, X } from 'lucide-react';
+import { CheckCircle2, CreditCard, Lock, MapPin, Minus, Plus, ShieldCheck, Trash2, Wallet, X } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useStore } from '../context/StoreContext';
+import { STORE_INFO } from '../data/storeInfo';
 import { formatNaira, type Order } from '../types/ecommerce';
 import { SafeImage } from './SafeImage';
 
@@ -39,7 +40,7 @@ export function CartCheckoutDrawer({ open, onClose, onViewOrders }: CartCheckout
 
     try {
       const order = await placeOrder({
-        customerName: customerName || profile?.displayName || 'Vinco Customer',
+        customerName: customerName || profile?.displayName || 'Vinco & More Customer',
         shippingAddress,
         paymentMethod,
         cardNumber: paymentMethod === 'card' ? cardNumber : undefined,
@@ -74,7 +75,7 @@ export function CartCheckoutDrawer({ open, onClose, onViewOrders }: CartCheckout
           <div>
             <h2 className="font-display text-lg font-bold text-[#004D2C]">
               {step === 'bag'
-                ? 'Vinco Bag'
+                ? 'Vinco & More Bag'
                 : step === 'checkout'
                   ? 'Express Naira Checkout'
                   : 'Order Confirmed'}
@@ -104,7 +105,7 @@ export function CartCheckoutDrawer({ open, onClose, onViewOrders }: CartCheckout
             <>
               {cart.length === 0 ? (
                 <div className="py-16 text-center space-y-3">
-                  <p className="font-display text-base font-bold text-[#004D2C]">Your Vinco bag is empty</p>
+                  <p className="font-display text-base font-bold text-[#004D2C]">Your Vinco &amp; More bag is empty</p>
                   <p className="text-xs text-[#3B7A57] max-w-xs mx-auto">
                     Select any towel suite, boxer pack, bedcover, bathrobe, or blanket to begin checkout.
                   </p>
@@ -198,9 +199,15 @@ export function CartCheckoutDrawer({ open, onClose, onViewOrders }: CartCheckout
                   required
                   value={shippingAddress}
                   onChange={(e) => setShippingAddress(e.target.value)}
-                  placeholder="Delivery address, city, state (e.g. Lekki Phase 1, Lagos)"
+                  placeholder="Delivery address, city, state (e.g. Benin City, Edo State or Lagos)"
                   className="w-full rounded-xl border border-[#AEC3B0] p-3.5 text-sm text-[#004D2C] outline-none focus:border-[#006837]"
                 />
+                <div className="flex items-start gap-2 rounded-xl bg-[#E3EED4]/65 border border-[#D4AF37]/50 p-3 text-[11px] text-[#004D2C]">
+                  <MapPin className="w-3.5 h-3.5 text-[#006837] shrink-0 mt-0.5" />
+                  <span>
+                    <strong>{STORE_INFO.headOfficeLabel}:</strong> {STORE_INFO.fullAddress}
+                  </span>
+                </div>
               </div>
 
               <div className="space-y-3">

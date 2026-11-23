@@ -25,7 +25,7 @@ const WISHLIST_STORAGE_KEY = 'vinco_design_wishlist_v1';
 const GUEST_USER: DesignGuestUser = {
   uid: 'vinco-preview-guest',
   email: 'guest@vinco.store',
-  displayName: 'Vinco Shopper',
+  displayName: 'Vinco & More Shopper',
   emailVerified: true,
 };
 

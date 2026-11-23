@@ -1,7 +1,8 @@
-import { Heart, Plus, Search, Share2, SlidersHorizontal, X } from 'lucide-react';
+import { Heart, MapPin, Plus, Search, Share2, SlidersHorizontal, X } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useStore } from '../context/StoreContext';
+import { STORE_INFO } from '../data/storeInfo';
 import {
   COLOR_SWATCH_MAP,
   formatNaira,
@@ -58,7 +59,7 @@ export function DesktopStorefront({
               <div className="space-y-4">
                 <div className="flex items-center gap-2 text-xs font-bold text-[#006837]">
                   <span className="w-2 h-2 rounded-full bg-[#D4AF37]" aria-hidden="true" />
-                  <span>Vinco Home, Sleep &amp; Apparel</span>
+                  <span>Vinco &amp; More · Home, Sleep &amp; Apparel</span>
                   <span aria-hidden="true" className="text-[#D4AF37]">·</span>
                   <span className="tabular-nums text-[#B8860B]">{heroProduct.stock} units ready to ship</span>
                 </div>
@@ -145,7 +146,7 @@ export function DesktopStorefront({
                 value={filters.search}
                 onChange={(e) => onUpdateFilters({ search: e.target.value })}
                 placeholder="Search boxers, bedcovers, towels, blankets..."
-                aria-label="Search Vinco catalog"
+                aria-label="Search Vinco & More catalog"
                 className="flex-1 bg-transparent text-sm text-[#004D2C] placeholder:text-[#3B7A57] outline-none"
               />
               {filters.search && (
@@ -389,7 +390,7 @@ export function DesktopStorefront({
         )}
       </section>
 
-      {/* Section 3: Vinco Assurance Strip */}
+      {/* Section 3: Vinco & More Assurance Strip */}
       <section className="max-w-7xl mx-auto px-8 pt-12">
         <div className="bg-white rounded-3xl p-8 border border-[#D4AF37]/60 grid grid-cols-3 gap-8">
           <div>
@@ -407,11 +408,33 @@ export function DesktopStorefront({
           <div>
             <p className="font-display text-lg font-bold text-[#004D2C]">Live Delivery Alerts</p>
             <p className="text-sm text-[#006837] mt-1.5 leading-relaxed">
-              Instant WebSocket and browser push updates keep you posted from dispatch to doorstep delivery.
+              Instant WebSocket and browser push updates keep you posted from Benin City dispatch to doorstep delivery.
             </p>
           </div>
         </div>
       </section>
+
+      {/* Section 4: Head Office & Store Footer */}
+      <footer className="max-w-7xl mx-auto px-8 pt-8">
+        <div className="bg-[#004D2C] text-white rounded-3xl p-8 border border-[#D4AF37] flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-1.5">
+            <p className="font-display text-xl font-bold text-[#F3E5AB]">{STORE_INFO.brandName}</p>
+            <p className="text-xs text-[#E3EED4]/90">
+              Towels, Bathrobes, Pyjamas, Boxers, Stretching Bedcovers &amp; Students Blankets
+            </p>
+          </div>
+
+          <div className="flex items-start gap-3 max-w-md">
+            <span className="w-9 h-9 rounded-xl bg-[#006837] border border-[#D4AF37]/70 flex items-center justify-center shrink-0 mt-0.5">
+              <MapPin className="w-4 h-4 text-[#F3E5AB]" />
+            </span>
+            <div className="space-y-0.5 text-xs">
+              <p className="font-bold text-[#F3E5AB]">{STORE_INFO.headOfficeLabel}</p>
+              <p className="text-[#E3EED4] leading-relaxed">{STORE_INFO.fullAddress}</p>
+            </div>
+          </div>
+        </div>
+      </footer>
 
       {shareProduct && <ShareSheet product={shareProduct} onClose={() => setShareProduct(null)} />}
     </div>

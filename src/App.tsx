@@ -1,4 +1,4 @@
-import { Bell, Heart, Home, ShoppingBag, User } from 'lucide-react';
+import { Bell, Heart, Home, ShieldCheck, ShoppingBag, User } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { AdminDashboardView } from './components/AdminDashboardView';
 import { CartCheckoutDrawer } from './components/CartCheckoutDrawer';
@@ -24,10 +24,20 @@ const INITIAL_FILTERS: FilterState = {
 };
 
 function StorefrontShell() {
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
   const { products, cartCount, notifications, addToCart } = useStore();
 
-  const [section, setSection] = useState<ActiveSection>('shop');
+  const [section, setSection] = useState<ActiveSection>(() => {
+    if (typeof window === 'undefined') return 'shop';
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('page') === 'admin' || window.location.pathname === '/admin') {
+      return 'admin';
+    }
+    if (params.get('page') === 'orders') {
+      return 'orders';
+    }
+    return 'shop';
+  });
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const [detailMode, setDetailMode] = useState<'overview' | 'studio' | 'lookbook'>('overview');
   const [cartOpen, setCartOpen] = useState(false);
@@ -40,7 +50,20 @@ function StorefrontShell() {
     return INITIAL_FILTERS;
   });
 
-  // Handle shared product deep-links (?product=<id>)
+  // Handle shared product deep-links (?product=<id>) and keep ?page=admin synced
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const url = new URL(window.location.href);
+    if (section === 'admin') {
+      url.searchParams.set('page', 'admin');
+    } else if (section === 'orders') {
+      url.searchParams.set('page', 'orders');
+    } else {
+      url.searchParams.delete('page');
+    }
+    window.history.replaceState({}, '', `${url.pathname}${url.search}`);
+  }, [section]);
+
   useEffect(() => {
     if (typeof window === 'undefined' || products.length === 0) return;
     const params = new URLSearchParams(window.location.search);
@@ -140,7 +163,7 @@ function StorefrontShell() {
           className="font-display text-2xl font-extrabold tracking-tight text-[#004D2C] whitespace-nowrap shrink-0 flex items-center gap-2"
         >
           <span className="w-3 h-3 rounded-full bg-[#D4AF37] ring-2 ring-[#006837]" aria-hidden="true" />
-          Vinco
+          Vinco &amp; More
         </button>
 
         {/* Zone 2: Single-Line Navigation Links */}
@@ -192,7 +215,7 @@ function StorefrontShell() {
                 : ''
             }`}
           >
-            {isAdmin ? 'Analytics' : 'Admin'}
+            Admin Portal
           </button>
         </nav>
 
@@ -223,7 +246,7 @@ function StorefrontShell() {
             onOpenAdmin={() => setSection('admin')}
           />
         ) : section === 'admin' ? (
-          <AdminDashboardView />
+          <AdminDashboardView onBackToStore={() => setSection('shop')} />
         ) : (
           <>
             <MobileStorefront
@@ -233,6 +256,10 @@ function StorefrontShell() {
               onResetFilters={resetFilters}
               onSelectProduct={handleSelectProduct}
               onQuickBuy={handleQuickBuy}
+              onOpenAdmin={() => {
+                setSelectedProductId(null);
+                setSection('admin');
+              }}
             />
             <DesktopStorefront
               filteredProducts={filteredProducts}
@@ -246,11 +273,11 @@ function StorefrontShell() {
         )}
       </main>
 
-      {/* Mobile Fixed Bottom Navigation Bar matching Screen 1 (Hidden inside PDP sticky checkout bar) */}
+      {/* Mobile Fixed Bottom Navigation Bar */}
       {!selectedProduct && (
         <nav
           aria-label="Mobile primary navigation"
-          className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#E3EED4]/95 backdrop-blur-md border-t border-[#D4AF37]/60 h-16 px-6 grid grid-cols-4 items-center"
+          className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#E3EED4]/95 backdrop-blur-md border-t border-[#D4AF37]/60 h-16 px-3 grid grid-cols-5 items-center"
         >
           <button
             type="button"
@@ -277,7 +304,7 @@ function StorefrontShell() {
           >
             <ShoppingBag className="w-5 h-5" />
             {cartCount > 0 && (
-              <span className="absolute top-1.5 right-4 min-w-[18px] h-[18px] px-1 rounded-full bg-[#006837] text-[#F3E5AB] border border-[#D4AF37] text-[10px] font-bold flex items-center justify-center tabular-nums">
+              <span className="absolute top-1.5 right-2.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[#006837] text-[#F3E5AB] border border-[#D4AF37] text-[10px] font-bold flex items-center justify-center tabular-nums">
                 {cartCount}
               </span>
             )}
@@ -291,7 +318,7 @@ function StorefrontShell() {
           >
             {unreadCount > 0 ? <Bell className="w-5 h-5 text-[#006837]" /> : <Heart className="w-5 h-5" />}
             {unreadCount > 0 && (
-              <span className="absolute top-1.5 right-4 min-w-[18px] h-[18px] px-1 rounded-full bg-[#D4AF37] text-[#003B20] text-[10px] font-bold flex items-center justify-center tabular-nums">
+              <span className="absolute top-1.5 right-2.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[#D4AF37] text-[#003B20] text-[10px] font-bold flex items-center justify-center tabular-nums">
                 {unreadCount}
               </span>
             )}
@@ -299,18 +326,35 @@ function StorefrontShell() {
 
           <button
             type="button"
-            onClick={() => setSection(section === 'orders' ? 'admin' : 'orders')}
-            aria-label="Orders and Operations"
+            onClick={() => setSection('orders')}
+            aria-label="Orders and Saved"
             className="flex flex-col items-center justify-center min-h-[44px]"
           >
             <span
               className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-                section === 'orders' || section === 'admin'
+                section === 'orders'
                   ? 'bg-[#006837] text-[#F3E5AB] ring-2 ring-[#D4AF37]'
                   : 'text-[#004D2C]'
               }`}
             >
               <User className="w-5 h-5" />
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setSection('admin')}
+            aria-label="Admin Portal"
+            className="flex flex-col items-center justify-center min-h-[44px]"
+          >
+            <span
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
+                section === 'admin'
+                  ? 'bg-[#006837] text-[#F3E5AB] ring-2 ring-[#D4AF37]'
+                  : 'text-[#004D2C]'
+              }`}
+            >
+              <ShieldCheck className="w-5 h-5" />
             </span>
           </button>
         </nav>

@@ -435,7 +435,7 @@ export function ProductDetailView({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-6 space-y-4">
               <div className="text-center">
-                <p className="text-xs font-semibold text-[#006837]">Vinco {product.category} Inspection</p>
+                <p className="text-xs font-semibold text-[#006837]">Vinco &amp; More {product.category} Inspection</p>
                 <h1 className="font-display text-2xl font-bold text-[#004D2C] mt-1">{product.title}</h1>
               </div>
 
@@ -540,7 +540,7 @@ export function ProductDetailView({
               {infoTab === 'closet' && (
                 <div className="space-y-3">
                   <p className="text-xs text-[#3B7A57]">
-                    Complete your home &amp; bath suite with matching Vinco textiles:
+                    Complete your home &amp; bath suite with matching Vinco &amp; More textiles:
                   </p>
                   {relatedProducts.map((item) => (
                     <div
@@ -791,7 +791,7 @@ export function ProductDetailView({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-display text-lg font-bold text-[#004D2C]">Vinco Dimension Guide</h3>
+              <h3 className="font-display text-lg font-bold text-[#004D2C]">Vinco &amp; More Dimension Guide</h3>
               <button
                 type="button"
                 onClick={() => setSizeChartOpen(false)}

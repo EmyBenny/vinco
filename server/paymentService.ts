@@ -115,7 +115,7 @@ export async function processSecurePayment(input: PaymentRequest): Promise<Payme
         enabled: true,
         allow_redirects: 'never',
       },
-      description: `Vinco Order (${input.itemsSummary.length} item(s))`,
+      description: `Vinco & More Order (${input.itemsSummary.length} item(s))`,
       receipt_email: input.customerEmail,
     });
 

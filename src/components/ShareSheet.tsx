@@ -17,7 +17,7 @@ export function ShareSheet({ product, onClose }: ShareSheetProps) {
       ? `${window.location.origin}/?product=${encodeURIComponent(product.id)}`
       : `https://vinco.store/?product=${encodeURIComponent(product.id)}`;
 
-  const shareText = `Check out ${product.title} (${formatNaira(product.price)}) on Vinco`;
+  const shareText = `Check out ${product.title} (${formatNaira(product.price)}) on Vinco & More`;
 
   const copyLink = async () => {
     try {

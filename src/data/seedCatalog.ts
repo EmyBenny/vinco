@@ -77,7 +77,7 @@ export const SEED_PRODUCTS: Omit<Product, 'createdAtMs' | 'updatedAtMs'>[] = [
   },
   {
     id: 'vinco-organic-boxers-pack',
-    title: 'Vinco Gold-Band Cotton Boxers',
+    title: 'Vinco & More Gold-Band Cotton Boxers',
     subtitle: '3-Pack Seamless Stretch · Breathable Everyday Fit',
     category: 'Boxers',
     price: 14500,
@@ -122,7 +122,7 @@ export const SEED_PRODUCTS: Omit<Product, 'createdAtMs' | 'updatedAtMs'>[] = [
   },
   {
     id: 'vinco-students-blanket',
-    title: 'Vinco Students Dorm Blanket',
+    title: 'Vinco & More Students Dorm Blanket',
     subtitle: 'Lightweight Cozy Fleece · Hostel & Travel Ready',
     category: 'Blankets',
     price: 18500,

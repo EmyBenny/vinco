@@ -135,7 +135,7 @@ async function startServer() {
           event: 'order:created',
           targetUserId: user.uid,
           title: `Order ${safeOrderNumber} Confirmed`,
-          message: `Payment of ₦${safeTotal} verified. Your Vinco items are being prepared.`,
+          message: `Payment of ₦${safeTotal} verified. Your Vinco & More items are being prepared.`,
           orderId,
           timestamp: new Date().toISOString(),
         });
@@ -245,7 +245,7 @@ async function startServer() {
   }
 
   server.listen(PORT, '0.0.0.0', () => {
-    console.log(`Vinco server listening on http://localhost:${PORT}`);
+    console.log(`Vinco & More server listening on http://localhost:${PORT}`);
   });
 }
 
